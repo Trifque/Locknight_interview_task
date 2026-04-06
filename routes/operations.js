@@ -45,14 +45,14 @@ router.get("/",(request, result) => {
 //PATCH - Change the status of a task / Promeni status zadatka
 router.patch("/:id",(request, result) => {
     // Recieve ID / Prihvati ID
-    const ID = Number(request.params.id);
+    const id = Number(request.params.id);
 
     // Find the task / Nadji zadatak
-    const changedTask = tasks.find(task => task.id === ID)
+    const changedTask = tasks.find(task => task.id === id);
 
     // Does the task exist / Da li postoji zadatak
     if(!changedTask){
-        console.log(`Task with ID = ${ID} is not here / Nema zadatka sa ID = ${ID}`);
+        console.log(`Task with ID = ${id} is not here / Nema zadatka sa ID = ${id}`);
         return result.status(404).send("The task is not found / Dati zadatak nije nadjen");
     }
 
@@ -60,9 +60,35 @@ router.patch("/:id",(request, result) => {
     changedTask.completed = !changedTask.completed;
 
     //Update status / Azuriraj status
-    console.log(`Task with ID = ${ID} is updated / Zadatak sa ID = ${ID} je azuriran`);
+    console.log(`Task with ID = ${id} is updated / Zadatak sa ID = ${id} je azuriran`);
     console.log(changedTask);
     return result.status(200).send("Task updated successfully / Zadatak uspesno azuriran");
+
+});
+
+
+
+//DELETE - Remove a task / Ukloni zadatak
+router.delete("/:id",(request, result) => {
+    // Recieve ID / Prihvati ID
+    const id = Number(request.params.id);
+
+    // Find the task / Nadji zadatak
+    const removeTaskIndex = tasks.findIndex(task => task.id === id);
+
+    // Does the task exist / Da li postoji zadatak
+    if(removeTaskIndex === -1){
+        console.log(`Task with ID = ${id} is not here / Nema zadatka sa ID = ${id}`);
+        return result.status(404).send("The task is not found / Dati zadatak nije nadjen");
+    }
+
+    //Delete task / Brisi zadatak
+    const deletedTask = tasks.splice(removeTaskIndex, 1)[0];
+
+    //Update status / Azuriraj status
+    console.log(`Task with ID = ${id} is deleted / Zadatak sa ID = ${id} je obrisan`);
+    console.log(deletedTask);
+    return result.status(200).send("Task deleted successfully / Zadatak uspesno obrisan");
 
 });
 
