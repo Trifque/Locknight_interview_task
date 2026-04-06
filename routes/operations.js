@@ -35,4 +35,12 @@ router.post("/", (request, result) => {
 
 
 
+//GET - Return a list of all tasks / Vrati listu svih zadataka
+router.get("/",(request, result) => {
+    return result.status(200).send(tasks);
+});
+
+
+
+
 module.exports = router;
