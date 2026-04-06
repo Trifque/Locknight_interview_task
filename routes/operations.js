@@ -42,5 +42,30 @@ router.get("/",(request, result) => {
 
 
 
+//PATCH - Change the status of a task / Promeni status zadatka
+router.patch("/:id",(request, result) => {
+    // Recieve ID / Prihvati ID
+    const ID = Number(request.params.id);
+
+    // Find the task / Nadji zadatak
+    const changedTask = tasks.find(task => task.id === ID)
+
+    // Does the task exist / Da li postoji zadatak
+    if(!changedTask){
+        console.log(`Task with ID = ${ID} is not here / Nema zadatka sa ID = ${ID}`);
+        return result.status(404).send("The task is not found / Dati zadatak nije nadjen");
+    }
+
+    //Change the Value of completed / Menjamo vrednost completed-a
+    changedTask.completed = !changedTask.completed;
+
+    //Update status / Azuriraj status
+    console.log(`Task with ID = ${ID} is updated / Zadatak sa ID = ${ID} je azuriran`);
+    console.log(changedTask);
+    return result.status(200).send("Task updated successfully / Zadatak uspesno azuriran");
+
+});
+
+
 
 module.exports = router;
